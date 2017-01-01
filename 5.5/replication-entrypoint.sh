@@ -15,7 +15,7 @@ if [ -n "$MASTER_PORT_3306_TCP_ADDR" ]; then
   export MASTER_PORT=$MASTER_PORT_3306_TCP_PORT
 fi
 
-if [ -z "$MASTER_HOST" ]; then
+if [ -z "$MASTER_HOT" ]; then
   export SERVER_ID=1
   cat >/docker-entrypoint-initdb.d/init-master.sh  <<'EOF'
 #!/bin/bash
@@ -41,11 +41,6 @@ else
   export SERVER_ID=2
   cp -v /init-slave.sh /docker-entrypoint-initdb.d/
   cat > /etc/mysql/conf.d/repl-slave.cnf << EOF
-[mysqld]
-log-slave-updates
-master-info-repository=TABLE
-relay-log-info-repository=TABLE
-relay-log-recovery=1
 EOF
 fi
 
