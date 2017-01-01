@@ -33,16 +33,18 @@ mysql -u root -e "RESET MASTER; \
 
 mysqldump \
   --protocol=tcp \
+  --single-transaction \
+  --skip-lock-tables \
   --user=$REPLICATION_USER \
   --password=$REPLICATION_PASSWORD \
   --host=$MASTER_HOST \
   --port=$MASTER_PORT \
   --hex-blob \
-  --all-databases \
   --add-drop-database \
   --master-data \
   --flush-logs \
   --flush-privileges \
+  $REPLICATION_DATABASE \
   | mysql -u root
 
 echo mysqldump completed.
